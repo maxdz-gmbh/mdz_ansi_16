@@ -1,0 +1,31 @@
+18.09.2024: Release 0.1
+-----------------------
+
+Added functions:
+
+- mdz_ansi_16_init
+- mdz_ansi_16_attach
+- mdz_ansi_16_size
+- mdz_ansi_16_capacity
+- mdz_ansi_16_data
+- mdz_ansi_16_dataConst
+
+- mdz_ansi_16_insert
+
+- mdz_ansi_16_findSingle
+- mdz_ansi_16_find
+- mdz_ansi_16_rfindSingle
+- mdz_ansi_16_rfind
+- mdz_ansi_16_firstOf
+- mdz_ansi_16_firstNotOf
+- mdz_ansi_16_lastOf
+- mdz_ansi_16_lastNotOf
+
+- mdz_ansi_16_removeFrom
+- mdz_ansi_16_remove
+- mdz_ansi_16_trimLeft
+- mdz_ansi_16_trimRight
+- mdz_ansi_16_trim
+  
+- mdz_ansi_16_compare  
+- mdz_ansi_16_count
