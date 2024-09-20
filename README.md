@@ -72,7 +72,7 @@ int main(void)
 {
   char pcBuffer[100];
   unsigned short nBuffSize = sizeof(pcBuffer);
-  char* pcString;
+  mdz_Ansi16* psAnsi16;
 
   size_t nPosition, nCount;
   enum mdz_error enError;
@@ -84,116 +84,116 @@ int main(void)
   unsigned long pnLicenseHash[] = { /* your personal license hash */ };
 
   /* library/license initialization, must be called before any other library function */
-  if (mdz_false == mdz_ansi_16_init(pnFirstNameHash, pnLastNameHash, pnEmailHash, pnLicenseHash)) 
+  if (mdz_false == mdz_ansi_16_init(pnFirstNameHash, pnLastNameHash, pnEmailHash, pnLicenseHash))
   {
     return 0;
   }
 
-  if (NULL == (pcString = mdz_ansi_16_attach(pcBuffer, 0, nBuffSize, MDZ_ATTACH_ZEROSIZE, &enError)))
+  if (NULL == (psAnsi16 = mdz_ansi_16_attach(pcBuffer, 0, nBuffSize, MDZ_ATTACH_ZEROSIZE, &enError)))
   {
     return 0;
   }
-  assert(0 == mdz_ansi_16_size(pcString));
-  assert(95 == mdz_ansi_16_capacity(pcString));
-  assert(0 == strcmp(mdz_ansi_16_data(pcString), ""));
+  assert(0 == mdz_ansi_16_size(psAnsi16));
+  assert(95 == mdz_ansi_16_capacity(psAnsi16));
+  assert(0 == strcmp(mdz_ansi_16_data(psAnsi16), ""));
 
-  if (MDZ_ERROR_NONE != mdz_ansi_16_insert(pcString, 0, "0123456789", 10))
+  if (MDZ_ERROR_NONE != mdz_ansi_16_insert(psAnsi16, 0, "0123456789", 10))
   {
     return 0;
   }
-  assert(10 == mdz_ansi_16_size(pcString));
-  assert(95 == mdz_ansi_16_capacity(pcString));
-  assert(0 == strcmp(mdz_ansi_16_data(pcString), "0123456789"));
+  assert(10 == mdz_ansi_16_size(psAnsi16));
+  assert(95 == mdz_ansi_16_capacity(psAnsi16));
+  assert(0 == strcmp(mdz_ansi_16_data(psAnsi16), "0123456789"));
 
-  if (MDZ_ERROR_NONE != mdz_ansi_16_insert(pcString, mdz_ansi_16_size(pcString), "9876543210", 10))
+  if (MDZ_ERROR_NONE != mdz_ansi_16_insert(psAnsi16, mdz_ansi_16_size(psAnsi16), "9876543210", 10))
   {
     return 0;
   }
-  assert(20 == mdz_ansi_16_size(pcString));
-  assert(95 == mdz_ansi_16_capacity(pcString));
-  assert(0 == strcmp(mdz_ansi_16_data(pcString), "01234567899876543210"));
+  assert(20 == mdz_ansi_16_size(psAnsi16));
+  assert(95 == mdz_ansi_16_capacity(psAnsi16));
+  assert(0 == strcmp(mdz_ansi_16_data(psAnsi16), "01234567899876543210"));
 
-  nPosition = mdz_ansi_16_findSingle(pcString, 0, 10, '4', &enError); 
+  nPosition = mdz_ansi_16_findSingle(psAnsi16, 0, 10, '4', &enError);
   assert(4 == nPosition);
   assert(MDZ_ERROR_NONE == enError);
 
-  nPosition = mdz_ansi_16_find(pcString, 0, mdz_ansi_16_size(pcString) - 1, "99", 2, &enError);
+  nPosition = mdz_ansi_16_find(psAnsi16, 0, mdz_ansi_16_size(psAnsi16) - 1, "99", 2, &enError);
   assert(9 == nPosition);
   assert(MDZ_ERROR_NONE == enError);
 
-  nPosition = mdz_ansi_16_rfindSingle(pcString, 0, mdz_ansi_16_size(pcString) - 1, '4', &enError);
+  nPosition = mdz_ansi_16_rfindSingle(psAnsi16, 0, mdz_ansi_16_size(psAnsi16) - 1, '4', &enError);
   assert(15 == nPosition);
   assert(MDZ_ERROR_NONE == enError);
 
-  nPosition = mdz_ansi_16_rfind(pcString, 0, mdz_ansi_16_size(pcString) - 1, "9", 1, &enError);
+  nPosition = mdz_ansi_16_rfind(psAnsi16, 0, mdz_ansi_16_size(psAnsi16) - 1, "9", 1, &enError);
   assert(10 == nPosition);
   assert(MDZ_ERROR_NONE == enError);
 
-  nPosition = mdz_ansi_16_firstOf(pcString, 0, mdz_ansi_16_size(pcString) - 1, "43", 2, &enError);
+  nPosition = mdz_ansi_16_firstOf(psAnsi16, 0, mdz_ansi_16_size(psAnsi16) - 1, "43", 2, &enError);
   assert(3 == nPosition);
   assert(MDZ_ERROR_NONE == enError);
 
-  nPosition = mdz_ansi_16_firstNotOf(pcString, 0, mdz_ansi_16_size(pcString) - 1, "3210", 4, &enError);
+  nPosition = mdz_ansi_16_firstNotOf(psAnsi16, 0, mdz_ansi_16_size(psAnsi16) - 1, "3210", 4, &enError);
   assert(4 == nPosition);
   assert(MDZ_ERROR_NONE == enError);
 
-  nPosition = mdz_ansi_16_lastOf(pcString, 0, mdz_ansi_16_size(pcString) - 1, "34", 4, &enError);
+  nPosition = mdz_ansi_16_lastOf(psAnsi16, 0, mdz_ansi_16_size(psAnsi16) - 1, "34", 4, &enError);
   assert(16 == nPosition);
   assert(MDZ_ERROR_NONE == enError);
 
-  nPosition = mdz_ansi_16_lastNotOf(pcString, 0, mdz_ansi_16_size(pcString) - 1, "0123", 4, &enError);
+  nPosition = mdz_ansi_16_lastNotOf(psAnsi16, 0, mdz_ansi_16_size(psAnsi16) - 1, "0123", 4, &enError);
   assert(15 == nPosition);
   assert(MDZ_ERROR_NONE == enError);
 
-  if (MDZ_ERROR_NONE != mdz_ansi_16_removeFrom(pcString, 2, 3)) 
+  if (MDZ_ERROR_NONE != mdz_ansi_16_removeFrom(psAnsi16, 2, 3))
   {
     return 0;
   }
-  assert(17 == mdz_ansi_16_size(pcString));
-  assert(95 == mdz_ansi_16_capacity(pcString));
-  assert(0 == strcmp(mdz_ansi_16_data(pcString), "01567899876543210"));
+  assert(17 == mdz_ansi_16_size(psAnsi16));
+  assert(95 == mdz_ansi_16_capacity(psAnsi16));
+  assert(0 == strcmp(mdz_ansi_16_data(psAnsi16), "01567899876543210"));
 
-  if (MDZ_ERROR_NONE != mdz_ansi_16_remove(pcString, 0, mdz_ansi_16_size(pcString) - 1, "99", 2))
+  if (MDZ_ERROR_NONE != mdz_ansi_16_remove(psAnsi16, 0, mdz_ansi_16_size(psAnsi16) - 1, "99", 2))
   {
     return 0;
   }
-  assert(15 == mdz_ansi_16_size(pcString));
-  assert(95 == mdz_ansi_16_capacity(pcString));
-  assert(0 == strcmp(mdz_ansi_16_data(pcString), "015678876543210"));
+  assert(15 == mdz_ansi_16_size(psAnsi16));
+  assert(95 == mdz_ansi_16_capacity(psAnsi16));
+  assert(0 == strcmp(mdz_ansi_16_data(psAnsi16), "015678876543210"));
 
-  if (MDZ_ERROR_NONE != mdz_ansi_16_trimLeft(pcString, 0, mdz_ansi_16_size(pcString) - 1, "012", 3))
+  if (MDZ_ERROR_NONE != mdz_ansi_16_trimLeft(psAnsi16, 0, mdz_ansi_16_size(psAnsi16) - 1, "012", 3))
   {
     return 0;
   }
-  assert(13 == mdz_ansi_16_size(pcString));
-  assert(95 == mdz_ansi_16_capacity(pcString));
-  assert(0 == strcmp(mdz_ansi_16_data(pcString), "5678876543210"));
+  assert(13 == mdz_ansi_16_size(psAnsi16));
+  assert(95 == mdz_ansi_16_capacity(psAnsi16));
+  assert(0 == strcmp(mdz_ansi_16_data(psAnsi16), "5678876543210"));
 
-  if (MDZ_ERROR_NONE != mdz_ansi_16_trimRight(pcString, 0, mdz_ansi_16_size(pcString) - 1, "012", 3))
+  if (MDZ_ERROR_NONE != mdz_ansi_16_trimRight(psAnsi16, 0, mdz_ansi_16_size(psAnsi16) - 1, "012", 3))
   {
     return 0;
   }
-  assert(10 == mdz_ansi_16_size(pcString));
-  assert(95 == mdz_ansi_16_capacity(pcString));
-  assert(0 == strcmp(mdz_ansi_16_data(pcString), "5678876543"));
+  assert(10 == mdz_ansi_16_size(psAnsi16));
+  assert(95 == mdz_ansi_16_capacity(psAnsi16));
+  assert(0 == strcmp(mdz_ansi_16_data(psAnsi16), "5678876543"));
 
-  if (MDZ_ERROR_NONE != mdz_ansi_16_trim(pcString, 0, mdz_ansi_16_size(pcString) - 1, "012345", 6))
+  if (MDZ_ERROR_NONE != mdz_ansi_16_trim(psAnsi16, 0, mdz_ansi_16_size(psAnsi16) - 1, "012345", 6))
   {
     return 0;
   }
-  assert(6 == mdz_ansi_16_size(pcString));
-  assert(95 == mdz_ansi_16_capacity(pcString));
-  assert(0 == strcmp(mdz_ansi_16_data(pcString), "678876"));
+  assert(6 == mdz_ansi_16_size(psAnsi16));
+  assert(95 == mdz_ansi_16_capacity(psAnsi16));
+  assert(0 == strcmp(mdz_ansi_16_data(psAnsi16), "678876"));
 
-  enCompareResult = mdz_ansi_16_compare(pcString, 0, "678", 3, mdz_false, &enError);
+  enCompareResult = mdz_ansi_16_compare(psAnsi16, 0, "678", 3, mdz_false, &enError);
   assert(MDZ_ANSI_COMPARE_NONEQUAL == enCompareResult);
   assert(MDZ_ERROR_NONE == enError);
 
-  enCompareResult = mdz_ansi_16_compare(pcString, 0, "678", 3, mdz_true, &enError);
+  enCompareResult = mdz_ansi_16_compare(psAnsi16, 0, "678", 3, mdz_true, &enError);
   assert(MDZ_ANSI_COMPARE_EQUAL == enCompareResult);
   assert(MDZ_ERROR_NONE == enError);
 
-  nCount = mdz_ansi_16_count(pcString, 0, mdz_ansi_16_size(pcString) - 1, "6", 1, mdz_true, &enError);
+  nCount = mdz_ansi_16_count(psAnsi16, 0, mdz_ansi_16_size(psAnsi16) - 1, "6", 1, mdz_true, &enError);
   assert(2 == nCount);
   assert(MDZ_ERROR_NONE == enError);
 
