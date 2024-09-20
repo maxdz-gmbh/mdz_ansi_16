@@ -46,6 +46,8 @@ Only shared/dynamically loaded libraries (*.so* and *.dll* files with import lib
 
 **7. No Memory Overhead:** The functions are designed to process input data without making internal memory allocations or using dynamic memory.
 
+**8. Metadata encapsulated:** String controls its Size and Capacity, thus making automatical checking and if necessary adjustment during each string function call.
+
 [mdz_ansi_alg]: https://github.com/maxdz-gmbh/mdz_ansi_alg
 
 ## mdz_ansi_16 Usage
