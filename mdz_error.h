@@ -89,9 +89,29 @@ enum mdz_error
   MDZ_ERROR_OVERLAP /* = 13 */,
 
   /**
-   * Invalid attach type
+   * Memory allocation function is not set
    */
-  MDZ_ERROR_ATTACH_TYPE /*= 14*/
+  MDZ_ERROR_ALLOC_FUNC /* = 14 */,
+
+  /**
+  * Memory re-allocation function is not set
+  */
+  MDZ_ERROR_REALLOC_FUNC /* = 15 */,
+
+  /**
+   * Memory free function is not set
+   */
+  MDZ_ERROR_FREE_FUNC /* = 16 */,
+
+  /**
+  * Memory allocation error
+  */
+  MDZ_ERROR_ALLOCATION /* = 17 */,
+
+  /**
+  * Container is attached
+  */
+  MDZ_ERROR_ATTACHED /* = 18 */
 };
 
 #endif

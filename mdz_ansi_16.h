@@ -33,7 +33,6 @@
 
 #include "mdz_bool.h"
 #include "mdz_ansi_compare_result.h"
-#include "mdz_attach_type.h"
 #include "mdz_error.h"
 
 typedef struct mdz_Ansi16 mdz_Ansi16;
@@ -61,26 +60,21 @@ extern "C"
   /**
    * Attach string to pre-allocated pcBuffer of nBufferSize bytes. If penError is not NULL, error will be written there
    * \param pcBuffer     - pointer to pre-allocated buffer to attach. Buffer has following structure: 4 bytes (reserved) + Data, ending with 0-terminator. Thus minimal pcBuffer size is 5 bytes (in this case Capacity is 0)
-   * \param nInitialSize - initial Size of Data. 0 if string is empty
    * \param nBufferSize  - size of pcBuffer in bytes; should be at least 5 bytes (in this case Capacity is 0)
-   * \param enAttachType - type of attachment. See details in desctiption of mdz_attach_type
    * \param penError     - if not NULL, error will be written there. There are following errors possible:
    * \value:
    * MDZ_ERROR_LICENSE     - license is not initialized using mdz_ansi_16_init() or invalid
    * MDZ_ERROR_DATA        - pcBuffer is NULL
    * MDZ_ERROR_CAPACITY    - nBufferSize < 5
-   * MDZ_ERROR_ATTACH_TYPE - invalid attach type
-   * MDZ_ERROR_BIGSIZE     - nInitialSize > Capacity (normally Capacity is nBufferSize - 5)
-   * MDZ_ERROR_TERMINATOR  - 0-terminator is not found on Data[nInitialSize] position, when attachment type is MDZ_ATTACH_SIZE_TERMINATOR)
    * MDZ_ERROR_NONE        - function succeeded
    * \return:
    * NULL   - function failed
    * Result - pointer to string for use in other mdz_ansi_16 functions
    */
-  mdz_Ansi16* mdz_ansi_16_attach(char* pcBuffer, unsigned short nInitialSize, unsigned short nBufferSize, enum mdz_attach_type enAttachType, enum mdz_error* penError);
+  mdz_Ansi16* mdz_ansi_16_attach(char* pcBuffer, unsigned short nBufferSize, enum mdz_error* penError);
 
   /**
-   * Return Size of Data in items.
+   * Return Size of string Data in characters/bytes.
    * \param psAnsi - pointer to string returned by mdz_ansi_16_attach()
    * \return:
    * 0    - if psAnsi is NULL
@@ -89,7 +83,7 @@ extern "C"
   unsigned short mdz_ansi_16_size(const mdz_Ansi16* psAnsi);
 
   /**
-   * Return Capacity of Data in items.
+   * Return Capacity of string Data in characters/bytes.
    * \param psAnsi - pointer to string returned by mdz_ansi_16_attach()
    * \return:
    * 0        - if psAnsi is NULL
@@ -98,7 +92,7 @@ extern "C"
   unsigned short mdz_ansi_16_capacity(const mdz_Ansi16* psAnsi);
 
   /**
-   * Return pointer to Data.
+   * Return pointer to string Data.
    * \param psAnsi - pointer to string returned by mdz_ansi_16_attach()
    * \return:
    * 0    - if psAnsi is NULL
@@ -107,7 +101,7 @@ extern "C"
   char* mdz_ansi_16_data(mdz_Ansi16* psAnsi);
 
   /**
-   * Return const pointer to Data.
+   * Return const pointer to string Data.
    * \param psAnsi - pointer to string returned by mdz_ansi_16_attach()
    * \return:
    * 0    - if psAnsi is NULL
@@ -117,7 +111,7 @@ extern "C"
 
   /**
    * Insert pcItems from nLeftPos position. Data and pcItems cannot overlap. New Size is written in psAnsi.
-   * \param psAnsi - pointer to string returned by mdz_ansi_16_attach(). It should have enough Capacity for insertion of pcItems
+   * \param psAnsi   - pointer to string returned by mdz_ansi_16_attach(). It should have enough Capacity for insertion of pcItems
    * \param nLeftPos - 0-based position to insert. If nLeftPos == Size items are appended. nLeftPos > Size is not allowed
    * \param pcItems  - items to insert. Cannot be NULL
    * \param nCount   - number of items to insert. Cannot be 0
@@ -141,7 +135,7 @@ extern "C"
 
   /**
    * Find first occurrence of cItem. Returns 0-based position of match (if found), or SIZE_MAX if not found or error happened. If penError is not NULL, error will be written there
-   * \param psAnsi  - pointer to string returned by mdz_ansi_16_attach()
+   * \param psAnsi    - pointer to string returned by mdz_ansi_16_attach()
    * \param nLeftPos  - 0-based start position to search from left. Use 0 to search from the beginning of Data
    * \param nRightPos - 0-based end position to search up to. Use Size-1 to search till the end of Data
    * \param cItem     - character to find
@@ -163,7 +157,7 @@ extern "C"
 
   /**
    * Find first occurrence of pcItems using optimized Boyer-Moore-Horspool search. Returns 0-based position of match (if found), or SIZE_MAX if not found or error happened. If penError is not NULL, error will be written there
-   * \param psAnsi  - pointer to string returned by mdz_ansi_16_attach()
+   * \param psAnsi    - pointer to string returned by mdz_ansi_16_attach()
    * \param nLeftPos  - 0-based start position to search from left. Use 0 to search from the beginning of Data
    * \param nRightPos - 0-based end position to search up to. Use Size-1 to search till the end of Data
    * \param pcItems   - items to find. Cannot be NULL
@@ -189,7 +183,7 @@ extern "C"
 
   /**
    * Find last occurrence of cItem. Returns 0-based position of match (if found), or SIZE_MAX if not found or error happened. If penError is not NULL, error will be written there
-   * \param psAnsi  - pointer to string returned by mdz_ansi_16_attach()
+   * \param psAnsi    - pointer to string returned by mdz_ansi_16_attach()
    * \param nLeftPos  - 0-based end position to find up to. Use 0 to search till the beginning of Data
    * \param nRightPos - 0-based start position to find from right. Use Size-1 to search from the end of Data
    * \param cItem     - character to find
@@ -211,7 +205,7 @@ extern "C"
 
   /**
    * Find last occurrence of pcItems using optimized Boyer-Moore-Horspool search. Returns 0-based position of match (if found), or SIZE_MAX if not found or error happened. If penError is not NULL, error will be written there
-   * \param psAnsi  - pointer to string returned by mdz_ansi_16_attach()
+   * \param psAnsi    - pointer to string returned by mdz_ansi_16_attach()
    * \param nLeftPos  - 0-based end position to find up to. Use 0 to search till the beginning of Data
    * \param nRightPos - 0-based start position to find from right. Use Size-1 to search from the end of Data
    * \param pcItems   - items to find. Cannot be NULL
@@ -237,7 +231,7 @@ extern "C"
 
   /**
    * Find first occurrence of any item of pcItems. Returns 0-based position of match (if found), or SIZE_MAX if not found or error happened. If penError is not NULL, error will be written there
-   * \param psAnsi  - pointer to string returned by mdz_ansi_16_attach()
+   * \param psAnsi    - pointer to string returned by mdz_ansi_16_attach()
    * \param nLeftPos  - 0-based end position to find up to. Use 0 to search till the beginning of Data
    * \param nRightPos - 0-based start position to find from right. Use Size-1 to search till the end of Data
    * \param pcItems   - items to find. Cannot be NULL
@@ -261,33 +255,33 @@ extern "C"
   size_t mdz_ansi_16_firstOf(const mdz_Ansi16* psAnsi, size_t nLeftPos, size_t nRightPos, const char* pcItems, size_t nCount, enum mdz_error* penError);
 
   /**
-  * Find first non-occurrence of any item of pcItems. Returns 0-based position of match (if found), or SIZE_MAX if not found or error happened. If penError is not NULL, error will be written there
-  * \param psAnsi  - pointer to string returned by mdz_ansi_16_attach()
-  * \param nLeftPos  - 0-based end position to find up to. Use 0 to search till the beginning of Data
-  * \param nRightPos - 0-based start position to find from right. Use Size-1 to search till the end of Data
-  * \param pcItems   - items to find. Cannot be NULL
-  * \param nCount    - number of items to find. Cannot be 0
-  * \param penError  - if not NULL, error will be written there. There are following errors possible:
-  * \value:
-  * MDZ_ERROR_LICENSE    - license is not initialized using mdz_ansi_16_init() or invalid
-  * MDZ_ERROR_DATA       - psAnsi is NULL
-  * MDZ_ERROR_CAPACITY   - Capacity is too large
-  * MDZ_ERROR_BIGSIZE    - Size > Capacity
-  * MDZ_ERROR_TERMINATOR - there is no 0-terminator on Data[Size] position
-  * MDZ_ERROR_ITEMS      - pcItems is NULL
-  * MDZ_ERROR_ZERO_COUNT - nCount is 0
-  * MDZ_ERROR_BIGRIGHT   - nRightPos >= Size
-  * MDZ_ERROR_BIGLEFT    - nLeftPos > nRightPos
-  * MDZ_ERROR_NONE       - function succeeded
-  * \return:
-  * SIZE_MAX - if no item of pcItems found or error happened
-  * Result   - 0-based position of first match
-  */
+   * Find first non-occurrence of any item of pcItems. Returns 0-based position of match (if found), or SIZE_MAX if not found or error happened. If penError is not NULL, error will be written there
+   * \param psAnsi    - pointer to string returned by mdz_ansi_16_attach()
+   * \param nLeftPos  - 0-based end position to find up to. Use 0 to search till the beginning of Data
+   * \param nRightPos - 0-based start position to find from right. Use Size-1 to search till the end of Data
+   * \param pcItems   - items to find. Cannot be NULL
+   * \param nCount    - number of items to find. Cannot be 0
+   * \param penError  - if not NULL, error will be written there. There are following errors possible:
+   * \value:
+   * MDZ_ERROR_LICENSE    - license is not initialized using mdz_ansi_16_init() or invalid
+   * MDZ_ERROR_DATA       - psAnsi is NULL
+   * MDZ_ERROR_CAPACITY   - Capacity is too large
+   * MDZ_ERROR_BIGSIZE    - Size > Capacity
+   * MDZ_ERROR_TERMINATOR - there is no 0-terminator on Data[Size] position
+   * MDZ_ERROR_ITEMS      - pcItems is NULL
+   * MDZ_ERROR_ZERO_COUNT - nCount is 0
+   * MDZ_ERROR_BIGRIGHT   - nRightPos >= Size
+   * MDZ_ERROR_BIGLEFT    - nLeftPos > nRightPos
+   * MDZ_ERROR_NONE       - function succeeded
+   * \return:
+   * SIZE_MAX - if no item of pcItems found or error happened
+   * Result   - 0-based position of first match
+   */
   size_t mdz_ansi_16_firstNotOf(const mdz_Ansi16* psAnsi, size_t nLeftPos, size_t nRightPos, const char* pcItems, size_t nCount, enum mdz_error* penError);
 
   /**
    * Find last occurrence of any item of pcItems. Returns 0-based position of match (if found), or SIZE_MAX if not found or error happened. If penError is not NULL, error will be written there
-   * \param psAnsi  - pointer to string returned by mdz_ansi_16_attach()
+   * \param psAnsi    - pointer to string returned by mdz_ansi_16_attach()
    * \param nLeftPos  - 0-based end position to find up to. Use 0 to search till the beginning of Data
    * \param nRightPos - 0-based start position to find from right. Use Size-1 to search till the end of Data
    * \param pcItems   - items to find. Cannot be NULL
@@ -312,7 +306,7 @@ extern "C"
 
   /**
    * Find last non-occurrence of any item of pcItems. Returns 0-based position of match (if found), or SIZE_MAX if not found or error happened. If penError is not NULL, error will be written there
-   * \param psAnsi  - pointer to string returned by mdz_ansi_16_attach()
+   * \param psAnsi    - pointer to string returned by mdz_ansi_16_attach()
    * \param nLeftPos  - 0-based end position to find up to. Use 0 to search till the beginning of Data
    * \param nRightPos - 0-based start position to find from right. Use Size-1 to search till the end of Data
    * \param pcItems   - items to find. Cannot be NULL
@@ -337,7 +331,7 @@ extern "C"
 
   /**
    * Remove nCount item(s) starting from 0-based nLeftPos position
-   * \param psAnsi - pointer to string returned by mdz_ansi_16_attach()
+   * \param psAnsi   - pointer to string returned by mdz_ansi_16_attach()
    * \param nLeftPos - 0-based start position to remove item(s) from. Use 0 to remove from the beginning of Data
    * \param nCount   - number of item(s) to remove. Cannot be 0
    * \return:
@@ -356,7 +350,7 @@ extern "C"
 
   /**
    * Remove all ocurrences of nCount item(s) matching to pcItems, residing between nLeftPos and nRightPos
-   * \param psAnsi  - pointer to string returned by mdz_ansi_16_attach()
+   * \param psAnsi    - pointer to string returned by mdz_ansi_16_attach()
    * \param nLeftPos  - 0-based start position to remove item(s) from. Use 0 to search from the beginning of Data
    * \param nRightPos - 0-based end position to remove item(s) up to. Use Size-1 to search till the end of Data
    * \param pcItems   - items to remove. Cannot be NULL
@@ -379,7 +373,7 @@ extern "C"
 
   /**
    * Remove items which are contained in pcItems from left, until first non-contained in pcItems item is reached.
-   * \param psAnsi  - pointer to string returned by mdz_ansi_16_attach()
+   * \param psAnsi    - pointer to string returned by mdz_ansi_16_attach()
    * \param nLeftPos  - 0-based start position to trim item(s) from left. Use 0 to trim from the beginning of Data
    * \param nRightPos - 0-based end position to trim item(s) up to. Use Size-1 to trim till the end of Data
    * \param pcItems   - items to trim. Cannot be NULL
@@ -401,7 +395,7 @@ extern "C"
 
   /**
    * Remove items which are contained in pcItems from right, until first non-contained in pcItems item is reached.
-   * \param psAnsi  - pointer to string returned by mdz_ansi_16_attach()
+   * \param psAnsi    - pointer to string returned by mdz_ansi_16_attach()
    * \param nLeftPos  - 0-based end position to trim item(s) up to. Use 0 to trim till the beginning of Data
    * \param nRightPos - 0-based start position to trim item(s) from right. Use Size-1 to trim from the end of Data
    * \param pcItems   - items to trim. Cannot be NULL
@@ -423,7 +417,7 @@ extern "C"
 
   /**
    * Remove items which are contained in pcItems from left and from right, until first non-contained in pcItems item is reached.
-   * \param psAnsi  - pointer to string returned by mdz_ansi_16_attach()
+   * \param psAnsi    - pointer to string returned by mdz_ansi_16_attach()
    * \param nLeftPos  - 0-based start position to trim item(s) from left. Use 0 to trim from the beginning of Data
    * \param nRightPos - 0-based start position to trim item(s) from right. Use Size-1 to trim from the end of Data
    * \param pcItems   - items to trim. Cannot be NULL
@@ -449,7 +443,7 @@ extern "C"
 
   /**
    * Compare content of Data with pcItems. If penError is not NULL, error will be written there
-   * \param psAnsi        - pointer to string returned by mdz_ansi_16_attach()
+   * \param psAnsi          - pointer to string returned by mdz_ansi_16_attach()
    * \param nLeftPos        - 0-based start position to compare from left. Use 0 to compare from the beginning of Data
    * \param pcItems         - items to compare. Cannot be NULL
    * \param nCount          - number of items to compare. Cannot be 0
@@ -473,7 +467,7 @@ extern "C"
 
   /**
    * Counts number of pcItems substring occurences in Data. If penError is not NULL, error will be written there
-   * \param psAnsi         - pointer to string returned by mdz_ansi_16_attach()
+   * \param psAnsi           - pointer to string returned by mdz_ansi_16_attach()
    * \param nLeftPos         - 0-based start position to search from left. Use 0 to search from the beginning of Data
    * \param nRightPos        - 0-based end position to search up to. Use Size-1 to search till the end of Data
    * \param pcItems          - items to find. Cannot be NULL
