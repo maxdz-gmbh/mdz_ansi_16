@@ -91,7 +91,7 @@ int main(void)
     return 0;
   }
 
-  if (NULL == (psAnsi16 = mdz_ansi_16_attach(pcBuffer, 0, nBuffSize, MDZ_ATTACH_ZEROSIZE, &enError)))
+  if (NULL == (psAnsi16 = mdz_ansi_16_attach(pcBuffer, nBuffSize, &enError)))
   {
     return 0;
   }
