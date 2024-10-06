@@ -1,5 +1,3 @@
-#ifndef MDZ_ATTACH_TYPE_H
-#define MDZ_ATTACH_TYPE_H
 /**
  * \ingroup mdz libraries
  *
@@ -12,6 +10,9 @@
  * mdz attachment type enum for different mdz libraries
  *
  */
+
+#ifndef MDZ_ATTACH_TYPE_H
+#define MDZ_ATTACH_TYPE_H
 
 /**
  * Attachment type
