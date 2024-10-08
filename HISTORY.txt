@@ -1,12 +1,19 @@
+08.10.2024: Release 0.3
+-----------------------
+
+Added functions:
+- mdz_ansi_16_reverse
+
+Modified functions:
+- mdz_ansi_16_replace - added implementation of MDZ_ANSI_REPLACE_STRAIGHT
+
 06.10.2024: Release 0.2
 -----------------------
 
 Added functions:
-
 - mdz_ansi_16_replace
 
 Modified functions:
-
 - mdz_ansi_16_count  - added counting from right side
 - mdz_ansi_16_remove - added removing from right side
 

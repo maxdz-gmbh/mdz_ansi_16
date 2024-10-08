@@ -525,6 +525,23 @@ extern "C"
    */
   enum mdz_error mdz_ansi_16_replace(const mdz_Ansi16* psAnsi, size_t nLeftPos, size_t nRightPos, const char* pcItemsBefore, size_t nCountBefore, const char* pcItemsAfter, size_t nCountAfter, mdz_bool bFromLeft, enum mdz_ansi_replace_type enReplacementType);
 
+  /**
+   * Reverses characters in string, like "1234" into "4321".
+   * \param psAnsi    - pointer to string returned by mdz_ansi_16_attach()
+   * \param nLeftPos  - 0-based start position to search from left. Use 0 to search from the beginning of Data
+   * \param nRightPos - 0-based end position to search up to. Use Size-1 to search till the end of Data
+   * \return:
+   * MDZ_ERROR_LICENSE    - license is not initialized using mdz_ansi_16_init() or invalid
+   * MDZ_ERROR_DATA       - psAnsi is NULL
+   * MDZ_ERROR_CAPACITY   - Capacity is too large
+   * MDZ_ERROR_BIG_SIZE   - Size > Capacity
+   * MDZ_ERROR_TERMINATOR - there is no 0-terminator on Data[Size] position
+   * MDZ_ERROR_BIG_RIGHT  - nRightPos >= Size
+   * MDZ_ERROR_BIG_LEFT   - nLeftPos >= nRightPos
+   * MDZ_ERROR_NONE       - function succeeded
+   */
+  enum mdz_error mdz_ansi_16_reverse(const mdz_Ansi16* psAnsi, size_t nLeftPos, size_t nRightPos);
+
 #ifdef __cplusplus
 }
 #endif
