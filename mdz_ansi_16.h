@@ -523,7 +523,7 @@ extern "C"
    * MDZ_ERROR_OVERLAP_REPLACE - Data after replacement - overlaps with pcItemsBefore, or Data after replacement - overlaps with pcItemsAfter
    * MDZ_ERROR_NONE            - function succeeded
    */
-  enum mdz_error mdz_ansi_16_replace(const mdz_Ansi16* psAnsi, size_t nLeftPos, size_t nRightPos, const char* pcItemsBefore, size_t nCountBefore, const char* pcItemsAfter, size_t nCountAfter, mdz_bool bFromLeft, enum mdz_ansi_replace_type enReplacementType);
+  enum mdz_error mdz_ansi_16_replace(mdz_Ansi16* psAnsi, size_t nLeftPos, size_t nRightPos, const char* pcItemsBefore, size_t nCountBefore, const char* pcItemsAfter, size_t nCountAfter, mdz_bool bFromLeft, enum mdz_ansi_replace_type enReplacementType);
 
   /**
    * Reverses characters in string, like "1234" into "4321".
@@ -540,7 +540,7 @@ extern "C"
    * MDZ_ERROR_BIG_LEFT   - nLeftPos >= nRightPos
    * MDZ_ERROR_NONE       - function succeeded
    */
-  enum mdz_error mdz_ansi_16_reverse(const mdz_Ansi16* psAnsi, size_t nLeftPos, size_t nRightPos);
+  enum mdz_error mdz_ansi_16_reverse(mdz_Ansi16* psAnsi, size_t nLeftPos, size_t nRightPos);
 
 #ifdef __cplusplus
 }
