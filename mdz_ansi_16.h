@@ -75,6 +75,10 @@ extern "C"
   mdz_Ansi16* mdz_ansi_16_attach(char* pcBuffer, unsigned short nBufferSize, enum mdz_error* penError);
 
   /**
+   * \defgroup Status functions
+   */
+
+  /**
    * Return Size of string Data in characters/bytes.
    * \param psAnsi - pointer to string returned by mdz_ansi_16_attach()
    * \return:
@@ -109,6 +113,10 @@ extern "C"
    * Data - otherwise
    */
   const char* mdz_ansi_16_dataConst(const mdz_Ansi16* psAnsi);
+
+  /**
+   * \defgroup Insert/remove functions
+   */
 
   /**
    * Insert pcItems from nLeftPos position. Data and pcItems cannot overlap. New Size is written in psAnsi.
@@ -329,6 +337,10 @@ extern "C"
    * Result   - 0-based position of first match
    */
   size_t mdz_ansi_16_lastNotOf(const mdz_Ansi16* psAnsi, size_t nLeftPos, size_t nRightPos, const char* pcItems, size_t nCount, enum mdz_error* penError);
+
+  /**
+   * \defgroup Insert/remove functions
+   */
 
   /**
    * Remove nCount item(s) starting from 0-based nLeftPos position
