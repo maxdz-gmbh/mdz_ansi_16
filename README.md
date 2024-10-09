@@ -205,6 +205,6 @@ int main(void)
 
 ## Licensing info
 
-Use of **mdz_ansi_alg** library is regulated by license agreement in *LICENSE.txt*
+Use of **mdz_ansi_16** library is regulated by license agreement in *LICENSE.txt*
 
 Basically private non-commercial "test" usage is unrestricted. Commercial usage of library (incl. its source code) will be regulated by according license agreement.
